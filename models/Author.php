@@ -18,4 +18,12 @@ class Author extends ActiveRecord
       'name' => 'Name',
     ];
   }
+
+  public function rules()
+  {
+    return [
+      ['name', 'required'],
+      ['name', 'string']
+    ];
+  }
 }

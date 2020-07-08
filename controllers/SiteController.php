@@ -3,49 +3,36 @@
 namespace app\controllers;
 
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\Response;
-use yii\filters\VerbFilter;
 use app\models\Book;
-use app\models\Author;
 
 class SiteController extends Controller
 {
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
-    public function actionIndex()
-    {
-        $book = new Book();
+  /**
+   * Displays homepage.
+   *
+   * @return string
+   */
+  public function actionIndex()
+  {
+    return $this->render('index', [
+      'book' => new Book(),
+      'books' => Book::getAll(),
+    ]);
+  }
 
-        if (
-            $book->load(Yii::$app->request->post()) && $book->save()
-        ) {
-            Yii::$app->session->setFlash('success', 'Saved');
-            return $this->refresh();
-        }
+  /**
+   * Displays errors.
+   *
+   * @return string
+   */
+  public function actionError()
+  {
+    return $this->render('error');
+  }
 
-        return $this->render('index', [
-            'book' => $book,
-            'books' => Book::getAll(),
-        ]);
-    }
-
-    /**
-     * Displays errors.
-     *
-     * @return string
-     */
-    public function actionError()
-    {
-        return $this->render('error');
-    }
-
-    public function actionAdmin()
-    {
-        return $this->render('admin');
-    }
+  public function actionAdmin()
+  {
+    return $this->render('admin');
+  }
 }
