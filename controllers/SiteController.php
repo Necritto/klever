@@ -65,6 +65,14 @@ class SiteController extends Controller
     return $this->render('update', ['author' => $author]);
   }
 
+  public function actionDelete($id)
+  {
+    $author = Author::findOne($id);
+    $author->delete();
+    Yii::$app->session->setFlash('success', 'Author has been deleted');
+    return $this->redirect(['admin']);
+  }
+
   public function actionAdmin()
   {
     return $this->render('admin', ['authorsList' => Author::find()->all()]);
