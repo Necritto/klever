@@ -53,6 +53,18 @@ class SiteController extends Controller
     return $this->render('create', ['author' => $author]);
   }
 
+  public function actionUpdate($id)
+  {
+    $author = Author::findOne($id);
+
+    if ($author->load(Yii::$app->request->post()) && $author->save()) {
+      Yii::$app->session->setFlash('success', 'Author has been updated');
+      return $this->redirect(['admin']);
+    }
+
+    return $this->render('update', ['author' => $author]);
+  }
+
   public function actionAdmin()
   {
     return $this->render('admin', ['authorsList' => Author::find()->all()]);
