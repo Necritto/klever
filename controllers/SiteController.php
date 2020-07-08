@@ -5,7 +5,6 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\Book;
-use app\models\Author;
 
 class SiteController extends Controller
 {
@@ -16,17 +15,8 @@ class SiteController extends Controller
    */
   public function actionIndex()
   {
-    $book = new Book();
-
-    if (
-      $book->load(Yii::$app->request->post()) && $book->save()
-    ) {
-      Yii::$app->session->setFlash('success', 'Saved');
-      return $this->refresh();
-    }
-
     return $this->render('index', [
-      'book' => $book,
+      'book' => new Book(),
       'books' => Book::getAll(),
     ]);
   }
@@ -41,40 +31,8 @@ class SiteController extends Controller
     return $this->render('error');
   }
 
-  public function actionCreate()
-  {
-    $author = new Author();
-
-    if ($author->load(Yii::$app->request->post()) && $author->save()) {
-      Yii::$app->session->setFlash('success', 'Author added');
-      return $this->redirect(['admin']);
-    }
-
-    return $this->render('create', ['author' => $author]);
-  }
-
-  public function actionUpdate($id)
-  {
-    $author = Author::findOne($id);
-
-    if ($author->load(Yii::$app->request->post()) && $author->save()) {
-      Yii::$app->session->setFlash('success', 'Author has been updated');
-      return $this->redirect(['admin']);
-    }
-
-    return $this->render('update', ['author' => $author]);
-  }
-
-  public function actionDelete($id)
-  {
-    $author = Author::findOne($id);
-    $author->delete();
-    Yii::$app->session->setFlash('success', 'Author has been deleted');
-    return $this->redirect(['admin']);
-  }
-
   public function actionAdmin()
   {
-    return $this->render('admin', ['authorsList' => Author::find()->all()]);
+    return $this->render('admin');
   }
 }
