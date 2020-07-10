@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
-use Yii;
 use yii\web\Controller;
 use app\models\Book;
+use app\models\BookToAuthor;
 
 class SiteController extends Controller
 {
@@ -33,6 +33,6 @@ class SiteController extends Controller
 
   public function actionAdmin()
   {
-    return $this->render('admin');
+    return $this->render('admin', ['books' => Book::getAll(),]);
   }
 }
